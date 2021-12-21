@@ -1,11 +1,11 @@
 package com.example.simpletodo
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.apache.commons.io.FileUtils
@@ -35,12 +35,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val onClickListener = object : TaskItemAdapter.OnClickListener {
+            override fun onItemClicked(position: Int) {
+                // first parameter is the context, second is the class of the activity to launch
+                val i = Intent(this@MainActivity, EditActivity::class.java)
+                startActivity(i) // brings up the second activity
+            }
+        }
+
         loadItems()
 
         // look up recyclerView in layout
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         // Create adapter passing in data
-        adapter = TaskItemAdapter(listOfTasks, onLongClickListener);
+        adapter = TaskItemAdapter(listOfTasks, onLongClickListener, onClickListener);
         // attach adapter to the recyclerView to populate items
         recyclerView.adapter = adapter
         // Set layout manager to position items
@@ -71,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     // by writing and reading from a file
 
     // Get the file we need
-    fun getDataFile() : File {
+    fun getDataFile(): File {
         // Every line is going to represent a task in our list
         return File(filesDir, "data.txt")
     }

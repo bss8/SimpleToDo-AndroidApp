@@ -10,12 +10,19 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * A bridge that tells the recyclerView how to display the data we give it
  */
-class TaskItemAdapter(val listOfItems: List<String>,
-                      val longClickListener: OnLongClickListener) :
+class TaskItemAdapter(
+    val listOfItems: List<String>,
+    val longClickListener: OnLongClickListener,
+    val clickListener: OnClickListener
+) :
     RecyclerView.Adapter<TaskItemAdapter.ViewHolder>() {
 
     interface OnLongClickListener {
         fun onItemLongClicked(position: Int)
+    }
+
+    interface OnClickListener {
+        fun onItemClicked(position: Int)
     }
 
     // Provide a direct reference to each of the views within a data item
@@ -31,6 +38,11 @@ class TaskItemAdapter(val listOfItems: List<String>,
                 longClickListener.onItemLongClicked(adapterPosition)
                 true
             }
+
+            itemView.setOnClickListener {
+                Log.i("ItemClick", "User clicked on item: $adapterPosition")
+                clickListener.onItemClicked(adapterPosition)
+            }
         }
     }
 
@@ -39,7 +51,8 @@ class TaskItemAdapter(val listOfItems: List<String>,
         val context = parent.context
         val inflater = LayoutInflater.from(context)
         // Inflate the custom layout
-        val contactView = inflater.inflate(android.R.layout.simple_expandable_list_item_1, parent, false)
+        val contactView =
+            inflater.inflate(android.R.layout.simple_expandable_list_item_1, parent, false)
         // Return a new holder instance
         return ViewHolder(contactView)
     }

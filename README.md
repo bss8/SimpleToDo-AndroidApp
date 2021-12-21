@@ -20,8 +20,8 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] Changed background, learned that file-based resource names must follow a convention
-* [ ] Changed color of android mascot and drew a Shrek ear
+* [x] Changed background, learned that file-based resource names must follow a convention
+* [x] Changed color of Android mascot and drew a Shrek ear
 * [ ]
 
 ## Video Walkthrough
