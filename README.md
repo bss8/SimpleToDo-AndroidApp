@@ -20,7 +20,9 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [ ] Changed background, learned that file-based resource names must follow a convention
+* [ ] Changed color of android mascot and drew a Shrek ear
+* [ ]
 
 ## Video Walkthrough
 
@@ -33,6 +35,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## Notes
 
 Describe any challenges encountered while building the app.
+
+- learned that file-based resource names must follow a convention
 
 ## License
 
