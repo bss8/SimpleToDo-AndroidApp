@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">SimpleToDo</string>
-    <string name="add_btn">Add</string>
+    <string name="add_btn">&#10133; Add</string>
     <string name="item_hint">Add a task</string>
     <string name="edit_title">Edit Item Below: </string>
+    <string name="save_edit">&#128190; Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -18,7 +18,7 @@ class TaskItemAdapter(
     RecyclerView.Adapter<TaskItemAdapter.ViewHolder>() {
 
     interface OnLongClickListener {
-        fun onItemLongClicked(position: Int)
+        fun onItemLongClicked(view: View, position: Int)
     }
 
     interface OnClickListener {
@@ -35,7 +35,7 @@ class TaskItemAdapter(
             textView = itemView.findViewById(android.R.id.text1)
             itemView.setOnLongClickListener {
                 Log.i("listItem", "Long clicked on item: $adapterPosition")
-                longClickListener.onItemLongClicked(adapterPosition)
+                longClickListener.onItemLongClicked(itemView, adapterPosition)
                 true
             }
 
