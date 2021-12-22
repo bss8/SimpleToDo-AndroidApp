@@ -1,11 +1,14 @@
 package com.example.simpletodo
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
@@ -28,6 +31,23 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val i = Intent(this@MainActivity, EditActivity::class.java)
+
+        // https://developer.android.com/training/basics/intents/result#launch
+        val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+        { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                //  you will get result here in result.data
+                // nullable receiver of type intent, so we need to use ?. for a safe call
+                val updatedTaskText = result.data?.getStringExtra("updatedTask")
+                val position = result.data?.getIntExtra("position", -1)
+                Log.i("EditResult", "Result after edit is: $updatedTaskText")
+                // assert and smart cast from Int? to Int and from String? to String
+                updateItem(position!!, updatedTaskText!!)
+            }
+
+        }
+
         val onLongClickListener = object : TaskItemAdapter.OnLongClickListener {
             // need to pass in view to manipulate background color
             // this will be used to give the user a visual cue that the item will be deleted
@@ -37,22 +57,17 @@ class MainActivity : AppCompatActivity(),
 
                 // 1. Show a dialog with pos and neg options for deletion of a task
                 showNoticeDialog()
-
-
-                // 1. remove item from the list
-                //listOfTasks.removeAt(position)
-                // 2. Notify the adapter that our data set changed
-                //adapter.notifyItemRemoved(position)
-                //saveItems()
             }
         }
 
         val onClickListener = object : TaskItemAdapter.OnClickListener {
             override fun onItemClicked(position: Int) {
-                // first parameter is the context, second is the class of the activity to launch
-                val i = Intent(this@MainActivity, EditActivity::class.java)
+                // registration for an activity result must be done outside this listener,
+                // otherwise app state is RESUMED and an exception is thrown
+
                 i.putExtra("taskDescription", listOfTasks[position])
-                startActivity(i) // brings up the second activity
+                i.putExtra("position", position)
+                startForResult.launch(i)
             }
         }
 
@@ -94,13 +109,13 @@ class MainActivity : AppCompatActivity(),
     // by writing and reading from a file
 
     // Get the file we need
-    fun getDataFile(): File {
+    private fun getDataFile(): File {
         // Every line is going to represent a task in our list
         return File(filesDir, "data.txt")
     }
 
     // Load the items by reading every line in the data file
-    fun loadItems() {
+    private fun loadItems() {
         try {
             listOfTasks = FileUtils.readLines(getDataFile(), Charset.defaultCharset())
         } catch (ioException: IOException) {
@@ -109,7 +124,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     // Save items by writing them into our data file
-    fun saveItems() {
+    private fun saveItems() {
         try {
             FileUtils.writeLines(getDataFile(), listOfTasks)
         } catch (ioException: IOException) {
@@ -117,12 +132,17 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    fun deleteItem() {
+    private fun deleteItem() {
         // 1. remove item from the list
         listOfTasks.removeAt(itemPositionForDeletion)
         // 2. Notify the adapter that our data set changed
         adapter.notifyItemRemoved(itemPositionForDeletion)
         saveItems()
+    }
+
+    private fun updateItem(position: Int, updatedTask: String) {
+        listOfTasks[position] = updatedTask
+        adapter.notifyItemChanged(position)
     }
 
     fun showNoticeDialog() {

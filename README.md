@@ -19,6 +19,8 @@ The following **optional** features are implemented:
 
 * [x] User can **tap a todo item in the list and bring up an edit screen for the todo item** 
   and then have any changes to the text reflected in the todo list
+  Note: I used the new `registerForActivityResult` method, as the method in the guide using 
+  `startActivityForResult` is now deprecated. 
 
 The following **additional** features are implemented:
 
@@ -27,6 +29,7 @@ The following **additional** features are implemented:
 * [x] Created NiceButton and GrayButton based on guide
 * [x] Used Unicode (HTML encoded) to display icons for adding a task and saving a change
 * [x] Added log statement when an item is deleted
+* [x] Placed labels for buttons and other UI items under `res/values/strings.xml`   
 
 ## Video Walkthrough
 
