@@ -33,6 +33,14 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
+Link to Imgur post: https://imgur.com/a/keBEFCd
+
+Please note that Imgur went out of their way to stop users from having a direct image link. 
+They now turn gifs into videos (.mp4) and you have to embed JavaScript to post them.
+
+I added the app_demo.gif file under `res/drawable/app_demo.gif` and linked it here in the README. 
+The demo is viewable on the README via GitHub or by opening the file directly. 
+
 Here's a walkthrough of implemented user stories:
 
 ![Video Walkthrough](app/src/main/res/drawable/app_demo.gif)
